@@ -1,0 +1,28 @@
+{
+  "format": 1,
+  "title": { "en": "Unreadable Range Market" },
+  "metadata": {
+    "categories": {
+      "tools": { "title": { "en": "Tools" } }
+    },
+    "labels": {},
+    "sortKeys": {}
+  },
+  "plugins": [
+    {
+      "name": "demo-broken",
+      "title": { "en": "Demo Broken" },
+      "description": { "en": "Single plugin whose requirement the check cannot read." },
+      "repository": { "url": "https://github.com/example/demo-broken" },
+      "metadata": { "category": "tools", "keywords": ["broken"], "labels": [], "sortKeys": {} },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "publishTimestamp": 1794600000,
+          "source": { "type": "npm" },
+          "engines": { "dsh": ">=two" }
+        }
+      ]
+    }
+  ]
+}

@@ -101,8 +101,8 @@ Params: `plugin_name`, optional `dsh_version` (falls back to `DSH_VERSION`).
 
 Applies the install-time rule:
 `semver.satisfies(version, engines.dsh, { includePrerelease: true })`.
-The result is compatible, incompatible, undeclared, or unreadable, with the
-newest installable version's spec.
+The result is compatible, incompatible, undeclared, unverified, or unreadable, with the
+newest installable version's spec. An unreadable range means the harness rejects it.
 
 ```
 dsh-ci-diet: incompatible (dsh 0.3.0-rc.1)

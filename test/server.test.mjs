@@ -10,6 +10,7 @@ import { checkCompatibility, getPluginDetail, loadIndex, searchPlugins } from '.
 
 const here = dirname(fileURLToPath(import.meta.url))
 const fixture = join(here, 'fixtures', 'index.json')
+const unreadableFixture = join(here, 'fixtures', 'index-unreadable.json')
 const server = join(here, '..', 'bin', 'server.js')
 
 process.env.DSH_MARKET_INDEX = fixture
@@ -94,6 +95,27 @@ test('compatibility needs a version when the environment has none', async () => 
   await withVersion(undefined, async () => {
     await assert.rejects(checkCompatibility({ pluginName: 'demo-alpha' }), /Pass dsh_version, or set DSH_VERSION/)
   })
+})
+
+test('a range the check cannot read is unreadable, not incompatible', async () => {
+  const text = await checkCompatibility({ pluginName: 'demo-broken', dshVersion: '0.2.2' }, { url: unreadableFixture })
+  assert.match(text, /^demo-broken: unreadable \(dsh 0\.2\.2\)$/m)
+  assert.match(text, /^  0\.1\.0: unreadable, >=two$/m)
+  assert.match(text, /note: some versions declare a range this check cannot read/)
+  assert.match(text, /^install: none \(no version admits this dsh\)$/m)
+})
+
+test('detail keeps an unreadable range out of the default version', async () => {
+  const text = await getPluginDetail({ pluginName: 'demo-broken' }, { url: unreadableFixture, runtime: '0.2.2' })
+  assert.match(text, /^default: none \(no compatible version\)$/m)
+  assert.match(text, /0\.1\.0 .*DSH unreadable >=two/)
+  assert.match(text, /^install: none \(no compatible version\)$/m)
+})
+
+test('an unusable runtime version leaves compatibility unknown instead of claiming a mismatch', async () => {
+  const text = await searchPlugins({ keyword: 'alpha' }, { url: fixture, runtime: 'not-a-version' })
+  assert.match(text, /DSH unknown/)
+  assert.match(text, /install: demo-alpha@0\.2\.0/)
 })
 
 test('a one-shot client gets its last reply before stdin closes', async () => {
