@@ -1,0 +1,72 @@
+{
+  "format": 1,
+  "title": { "en": "Fixture Market", "zh": "示例市场" },
+  "description": { "en": "Fixture index for dsh-market-mcp tests." },
+  "metadata": {
+    "categories": {
+      "tools": { "title": { "en": "Tools" } },
+      "memory": { "title": { "en": "Memory" } }
+    },
+    "labels": {},
+    "sortKeys": {}
+  },
+  "plugins": [
+    {
+      "name": "demo-alpha",
+      "title": { "en": "Demo Alpha" },
+      "description": { "en": "Alpha plugin for workflow automation." },
+      "repository": { "url": "https://github.com/example/demo-alpha" },
+      "homepage": "https://example.com/demo-alpha",
+      "metadata": { "category": "tools", "keywords": ["alpha", "workflow"], "labels": [], "sortKeys": {} },
+      "versions": [
+        {
+          "version": "0.2.0",
+          "publishTimestamp": 1794000000,
+          "source": { "type": "npm" },
+          "engines": { "dsh": ">=0.3.0" }
+        },
+        {
+          "version": "0.1.0",
+          "publishTimestamp": 1793000000,
+          "source": { "type": "npm" },
+          "engines": { "dsh": ">=0.2.0" }
+        }
+      ]
+    },
+    {
+      "name": "demo-beta",
+      "title": { "en": "Demo Beta" },
+      "description": { "en": "Beta plugin with no declared requirement." },
+      "repository": { "url": "https://github.com/example/demo-beta" },
+      "metadata": { "category": "memory", "keywords": ["beta"], "labels": [], "sortKeys": {} },
+      "versions": [
+        {
+          "version": "0.5.0",
+          "publishTimestamp": 1793500000,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/example/demo-beta",
+            "commit": "abc123",
+            "path": "packages/beta"
+          },
+          "engines": {}
+        }
+      ]
+    },
+    {
+      "name": "demo-gamma",
+      "title": { "en": "Demo Gamma" },
+      "description": { "en": "Gamma plugin pinned to one prerelease." },
+      "repository": { "url": "https://github.com/example/demo-gamma" },
+      "metadata": { "category": "tools", "keywords": ["gamma"], "labels": [], "sortKeys": {} },
+      "versions": [
+        {
+          "version": "1.0.0",
+          "publishTimestamp": 1794500000,
+          "source": { "type": "npm" },
+          "engines": { "dsh": "0.2.2-rc.1" }
+        }
+      ]
+    }
+  ]
+}

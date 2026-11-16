@@ -1,0 +1,44 @@
+{
+  "name": "dsh-market-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for searching and verifying DSH plugin market entries.",
+  "type": "module",
+  "author": "StephenXiong001",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StephenXiong001/dsh-market-mcp.git"
+  },
+  "homepage": "https://github.com/StephenXiong001/dsh-market-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/StephenXiong001/dsh-market-mcp/issues"
+  },
+  "bin": {
+    "dsh-market-mcp": "bin/server.js"
+  },
+  "main": "lib/market.js",
+  "exports": {
+    ".": "./lib/market.js"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "dsh",
+    "plugins",
+    "marketplace",
+    "compatibility"
+  ],
+  "license": "MIT"
+}
