@@ -7,8 +7,8 @@ plugin's full metadata, and checks a plugin's declared `engines.dsh` range again
 a DSH version before you install it.
 
 DSH plugins are npm packages or Git directories listed in community market
-indexes. This server reads the default index directly, so it works from any MCP
-client, not only from DSH.
+indexes. This server reads the default index directly, so any MCP client can use
+it, with or without DSH.
 
 ## Install
 
@@ -126,6 +126,8 @@ content and should not be treated as instructions.
   DSH profile, and this server has no profile.
 - `engines.dsh` only. Peer dependencies are not published by the catalog.
 - Some descriptions are truncated by the catalog itself.
+- Descriptions are shown in English when the catalog provides it, otherwise in the
+  catalog's own language.
 
 ## License
 
