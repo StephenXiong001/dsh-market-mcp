@@ -6,11 +6,13 @@
  * written to stdout; diagnostics go to stderr.
  */
 import { createInterface } from 'node:readline'
+import { createRequire } from 'node:module'
 
 import { callTool, TOOLS } from '../lib/tools.js'
 
+const require = createRequire(import.meta.url)
 const SERVER_NAME = 'dsh-market-mcp'
-const SERVER_VERSION = '0.1.0'
+const { version: SERVER_VERSION } = require('../package.json')
 const SUPPORTED_PROTOCOLS = ['2025-06-18', '2025-03-26', '2024-11-05']
 
 function send(message) {
