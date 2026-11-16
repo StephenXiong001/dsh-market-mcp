@@ -96,6 +96,28 @@ test('compatibility needs a version when the environment has none', async () => 
   })
 })
 
+test('a one-shot client gets its last reply before stdin closes', async () => {
+  const child = spawn(process.execPath, [server], {
+    env: { ...process.env, DSH_MARKET_INDEX: fixture, DSH_VERSION: '0.2.2' },
+    stdio: ['pipe', 'pipe', 'pipe'],
+  })
+  const lines = []
+  const readerForPipe = createInterface({ input: child.stdout })
+  readerForPipe.on('line', (line) => lines.push(line))
+  const exited = new Promise((resolve) => child.on('close', resolve))
+
+  child.stdin.write(`${JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2025-06-18', capabilities: {}, clientInfo: { name: 'one-shot', version: '1' } } })}\n`)
+  child.stdin.write(`${JSON.stringify({ jsonrpc: '2.0', id: 2, method: 'tools/call', params: { name: 'search_plugins', arguments: { keyword: 'alpha' } } })}\n`)
+  child.stdin.end()
+
+  await exited
+  const replies = lines.map((line) => JSON.parse(line))
+  assert.equal(replies.length, 2)
+  const call = replies.find((message) => message.id === 2)
+  assert.ok(call !== undefined, 'the tool reply survived stdin close')
+  assert.match(call.result.content[0].text, /demo-alpha/)
+})
+
 test('a missing plugin points at close names', async () => {
   const text = await getPluginDetail({ pluginName: 'demo-alpa' })
   assert.match(text, /No plugin named "demo-alpa"/)

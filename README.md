@@ -36,6 +36,27 @@ npx -y dsh-market-mcp
 
 Node.js 18 or newer is required.
 
+Docker:
+
+```sh
+docker build -t dsh-market-mcp .
+```
+
+```json
+{
+  "mcpServers": {
+    "dsh-market": {
+      "command": "docker",
+      "args": ["run", "--rm", "-i", "dsh-market-mcp"],
+      "env": {}
+    }
+  }
+}
+```
+
+The image speaks MCP over stdio and exposes no port. Pass `-e DSH_VERSION=...` to
+`docker run` when you want a default version for compatibility checks.
+
 ## Configuration
 
 | Variable | Default | Meaning |

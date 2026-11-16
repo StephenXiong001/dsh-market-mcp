@@ -88,12 +88,20 @@ async function handleLine(line) {
 }
 
 const reader = createInterface({ input: process.stdin, crlfDelay: Infinity })
+const inflight = new Set()
+
 reader.on('line', (line) => {
-  handleLine(line).catch((error) => {
+  const task = handleLine(line).catch((error) => {
     process.stderr.write(`dsh-market-mcp: ${error instanceof Error ? error.message : String(error)}\n`)
   })
+  inflight.add(task)
+  task.then(() => inflight.delete(task), () => inflight.delete(task))
 })
+
+// A one-shot client may close stdin right after sending a request. Draining the
+// pending replies first keeps that response instead of dropping it on exit.
 reader.on('close', () => {
-  process.exit(0)
+  Promise.allSettled([...inflight]).then(() => process.exit(0), () => process.exit(0))
 })
+
 process.stdout.on('error', () => process.exit(0))
