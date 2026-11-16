@@ -1,7 +1,7 @@
 /**
- * The expectations below come from semver 7.8.6's
- * `satisfies(version, range, { includePrerelease: true })`, the exact call DSH
- * uses for `engines.dsh`. Regenerate them with the bundled semver, not by hand.
+ * Expected results, matching semver 7.8.6's
+ * `satisfies(version, range, { includePrerelease: true })`, the rule DSH uses
+ * for `engines.dsh`.
  */
 import test from 'node:test'
 import assert from 'node:assert/strict'

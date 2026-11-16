@@ -12,7 +12,7 @@ client, not only from DSH.
 
 ## Install
 
-Claude Desktop:
+Add the server to any MCP client configuration:
 
 ```json
 {
@@ -28,14 +28,13 @@ Claude Desktop:
 }
 ```
 
-Claude Code:
+Or run it directly over stdio:
 
 ```sh
-claude mcp add dsh-market -- npx -y dsh-market-mcp
+npx -y dsh-market-mcp
 ```
 
-Any stdio MCP client can run `npx -y dsh-market-mcp`. Node.js 18 or newer is
-required.
+Node.js 18 or newer is required.
 
 ## Configuration
 
