@@ -21,7 +21,7 @@ Claude Desktop:
       "command": "npx",
       "args": ["-y", "dsh-market-mcp"],
       "env": {
-        "DSH_VERSION": "0.2.2"
+        "DSH_VERSION": "0.2.2-rc.3"
       }
     }
   }
@@ -62,17 +62,18 @@ Awesome DSH Plugin: 330 matches for "memory", showing 3
 more: 327 matches, offset=3
 ```
 
-Each row carries the default version, publish date, DSH compatibility, install
-state, and the exact install spec. Descriptions are clipped; use the detail tool
-for the full record.
+Each row carries the version to install (highest compatible with `DSH_VERSION`, otherwise
+the latest stable), publish date, DSH compatibility, install state, and the exact install
+spec. Descriptions are clipped; use the detail tool for the full record.
 
 ### `get_plugin_detail`
 
 Params: `plugin_name`, optional `version`.
 
 Returns metadata, repository and homepage, every listed version with its DSH range
-and install spec, the default version, and the install spec to use. The catalog
-does not publish tool inventories, so this server cannot list a plugin's tools.
+and install spec, the default version when `DSH_VERSION` is set (otherwise the latest
+stable), and the install spec to use. The catalog does not publish tool inventories, so
+this server cannot list a plugin's tools.
 
 ### `check_plugin_compatibility`
 

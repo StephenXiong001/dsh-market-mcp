@@ -102,6 +102,52 @@ test('a missing plugin points at close names', async () => {
   assert.match(text, /Near matches: demo-alpha/)
 })
 
+test('search sorts by publish date and clamps the page', async () => {
+  await withVersion('0.2.2', async () => {
+    const recent = await searchPlugins({ sort: 'recent' })
+    assert.match(recent, /^1\. demo-gamma/m)
+
+    const page = await searchPlugins({ limit: 999, offset: 2 })
+    assert.match(page, /showing 1, from 2/)
+    assert.match(page, /demo-gamma/)
+  })
+})
+
+test('detail focuses one listed version and installs it', async () => {
+  await withVersion('0.2.2', async () => {
+    const text = await getPluginDetail({ pluginName: 'demo-alpha', version: '0.2.0' })
+    assert.match(text, /^selected: 0\.2\.0 \(DSH no\)$/m)
+    assert.match(text, /^install: demo-alpha@0\.2\.0$/m)
+  })
+})
+
+test('without DSH_VERSION detail reports the latest version, not a default', async () => {
+  await withVersion(undefined, async () => {
+    const text = await getPluginDetail({ pluginName: 'demo-alpha' })
+    assert.match(text, /^latest: 0\.2\.0 \(compatibility unknown; set DSH_VERSION\)$/m)
+    assert.match(text, /^install: demo-alpha@0\.2\.0$/m)
+  })
+})
+
+function waitFor(predicate, timeoutMs = 5000) {
+  return new Promise((resolve, reject) => {
+    const started = Date.now()
+    const poll = () => {
+      const value = predicate()
+      if (value !== undefined) {
+        resolve(value)
+        return
+      }
+      if (Date.now() - started > timeoutMs) {
+        reject(new Error('timeout waiting for output'))
+        return
+      }
+      setTimeout(poll, 25)
+    }
+    poll()
+  })
+}
+
 function startServer(env = {}) {
   const child = spawn(process.execPath, [server], {
     env: { ...process.env, DSH_MARKET_INDEX: fixture, DSH_VERSION: '0.2.2', ...env },
@@ -196,9 +242,8 @@ test('stdio server rejects malformed input without writing non-JSON to stdout', 
   const client = startServer()
   try {
     client.child.stdin.write('not json\n')
-    await new Promise((resolve) => setTimeout(resolve, 200))
-    assert.ok(client.rawLines.length >= 1)
-    const parsed = JSON.parse(client.rawLines[0])
+    const line = await waitFor(() => (client.rawLines.length >= 1 ? client.rawLines[0] : undefined))
+    const parsed = JSON.parse(line)
     assert.equal(parsed.error.code, -32700)
     assert.equal(parsed.id, null)
   } finally {
