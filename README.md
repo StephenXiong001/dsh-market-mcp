@@ -1,6 +1,7 @@
 # dsh-market-mcp
 
 [![npm version](https://img.shields.io/npm/v/dsh-market-mcp.svg)](https://www.npmjs.com/package/dsh-market-mcp)
+[![StephenXiong001/dsh-market-mcp MCP server](https://glama.ai/mcp/servers/StephenXiong001/dsh-market-mcp/badges/score.svg)](https://glama.ai/mcp/servers/StephenXiong001/dsh-market-mcp)
 
 MCP server for the DSH plugin market. It searches the public catalog, returns one
 plugin's full metadata, and checks a plugin's declared `engines.dsh` range against
